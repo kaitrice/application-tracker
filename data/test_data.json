@@ -2,7 +2,7 @@
   "companies": [
     {
       "id": 1,
-      "title": "Test Co.",
+      "name": "Test Co.",
       "addr1": "123 ABC St",
       "addr2": "Suite 101",
       "city": "Gotham",

@@ -25,7 +25,7 @@ def init_db():
     companies_schema = """
     CREATE TABLE IF NOT EXISTS companies (
 		id INTEGER PRIMARY KEY AUTOINCREMENT,
-		title TEXT NOT NULL,
+		name TEXT NOT NULL,
 		addr1 TEXT,
 		addr2 TEXT,
 		city TEXT,
@@ -78,12 +78,12 @@ def seed_db(json_file: str = 'data/test_data.json'):
     for company in data.get("companies"):
         execute(
 			"""
-			INSERT INTO companies (id, title, addr1, addr2, city, state, zip, phone_number)
+			INSERT INTO companies (id, name, addr1, addr2, city, state, zip, phone_number)
 			VALUES (?, ?, ?, ?, ?, ?, ?, ?);
 			""",
 			(
 				company["id"],
-				company["title"],
+				company["name"],
 				company["addr1"],
 				company["addr2"],
 				company["city"],
