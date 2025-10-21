@@ -1,5 +1,6 @@
 import json
 import sqlite3
+import pandas as pd
 
 
 DB_PATH = 'data/database.db'
@@ -130,3 +131,29 @@ def seed_db(json_file: str = 'data/test_data.json'):
 		)
     
     print('Database seeded.')
+
+def load_data():
+    try:
+        with sqlite3.connect(DB_PATH) as conn:
+            applications_df = pd.read_sql_query('SELECT * FROM applications', conn)
+            companies_df = pd.read_sql_query('SELECT * FROM companies', conn)
+            contacts_df = pd.read_sql_query('SELECT * FROM contacts', conn)
+            companies_df = companies_df.rename(columns={'id': 'company_id'})
+            merge1_df = pd.merge(
+                applications_df,
+                companies_df,
+                how='left',
+                on='company_id',
+			)
+            merged_df = pd.merge(
+                merge1_df,
+                contacts_df.add_suffix('_contact'),
+                how='left',
+                left_on='company_id',
+                right_on='company_id_contact'
+			)
+        return merged_df
+    except sqlite3.Error as e:
+        print(f'Database error: {e}')
+    except Exception as e:
+        print(f'Unexpected error: {e}')
