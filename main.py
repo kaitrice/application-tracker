@@ -1,4 +1,4 @@
-from google_sheets import get_data
+from google.google_sheets import get_data
 
 
 COMPANIES_ID = '1457129417'
